@@ -81,7 +81,7 @@ export const analyzeDiaryEntry = async (text: string, level: string): Promise<Gr
         }`;
 
         const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-1.5-flash',
             contents: prompt,
             config: {
                 responseMimeType: 'application/json',
@@ -110,7 +110,7 @@ export const generateAssessmentTest = async (): Promise<AssessmentQuestion[]> =>
         `;
 
         const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-1.5-flash',
             contents: prompt,
             config: {
                 responseMimeType: 'application/json',
@@ -170,7 +170,7 @@ export const evaluateAssessment = async (responses: any[]): Promise<AssessmentRe
         });
 
         const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-1.5-flash',
             contents: { parts: contentParts },
             config: {
                 responseMimeType: 'application/json',
@@ -198,7 +198,7 @@ export const generateGrammarTask = async (lessonTitle: string): Promise<string> 
         ${getLanguageInstruction()} 
         ${STRICT_FILTER}`;
         const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-1.5-flash',
             contents: prompt,
             config: {
                 /* thinkingConfig removed for gemini-2.5-flash compatibility */
@@ -216,7 +216,7 @@ export const analyzeGrammar = async (text: string, taskContext: string): Promise
         ${getLanguageInstruction()}
         Return JSON: { "correctedText": "...", "generalFeedback": "...", "score": 0-100, "errors": [{ "mistake": "...", "correction": "...", "explanation": "..." }] }`;
         const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-1.5-flash',
             contents: prompt,
             config: {
                 responseMimeType: 'application/json',
@@ -235,7 +235,7 @@ export const generateGrammarQuiz = async (lessonTitle: string, content: string, 
         ${STRICT_FILTER}
         Return JSON: { "quiz": [{ "question": "...", "options": ["4 options"], "correctIndex": 0, "explanation": "..." }] }`;
         const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-1.5-flash',
             contents: prompt,
             config: {
                 responseMimeType: 'application/json',
@@ -268,7 +268,7 @@ export const generateGameData = async (category: string, context: string, level:
         ${getLanguageInstruction()}
         ${STRICT_FILTER} Structure: ${schemaPrompt}`;
         const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-1.5-flash',
             contents: prompt,
             config: {
                 responseMimeType: 'application/json',
@@ -290,7 +290,7 @@ export const generateReadingTitles = async (level: string, theme: string, isIsla
         ${STRICT_FILTER} 
         Return JSON: { "titles": ["string"] }`;
         const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-1.5-flash',
             contents: prompt,
             config: {
                 responseMimeType: 'application/json',
@@ -311,7 +311,7 @@ export const generateReadingContentStream = async (title: string, level: string,
         Return JSON structure but as a stream: { "title": "${title}", "paragraphs": ["string"] }`;
 
         return await ai.models.generateContentStream({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-1.5-flash',
             contents: prompt,
             config: {
                 responseMimeType: 'application/json',
@@ -331,7 +331,7 @@ export const generateReadingContent = async (title: string, level: string, theme
         Return JSON: { "title": "${title}", "paragraphs": ["string"] }`;
 
         const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-1.5-flash',
             contents: prompt,
             config: {
                 responseMimeType: 'application/json',
@@ -351,7 +351,7 @@ export const generateListeningTitles = async (level: string, type: string, theme
         ${STRICT_FILTER} 
         Return JSON: { "titles": ["string"] }`;
         const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-1.5-flash',
             contents: prompt,
             config: {
                 responseMimeType: 'application/json',
@@ -372,7 +372,7 @@ export const generateListeningScript = async (title: string, level: string, type
         ${STRICT_FILTER} 
         Return only the plain text script.`;
         const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-1.5-flash',
             contents: prompt,
             config: {
                 /* thinkingConfig removed for gemini-2.5-flash compatibility */
@@ -390,7 +390,7 @@ export const generateListeningQuiz = async (script: string, level: string): Prom
         ${STRICT_FILTER}
         Return JSON: { "quiz": [{ "question": "...", "options": ["4 options"], "correctIndex": 0, "explanation": "..." }] }`;
         const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-1.5-flash',
             contents: prompt,
             config: {
                 responseMimeType: 'application/json',
@@ -428,7 +428,7 @@ export const analyzePronunciationAudio = async (text: string, base64: string, mi
         }`;
 
         const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-1.5-flash',
             contents: {
                 parts: [
                     { inlineData: { data: base64, mimeType: mime } },
@@ -461,7 +461,7 @@ export const transcribeAudio = async (base64: string, mime: string): Promise<str
     try {
         const ai = getAiClient();
         const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-1.5-flash',
             contents: {
                 parts: [
                     { inlineData: { data: base64, mimeType: mime } },
@@ -538,7 +538,7 @@ export const translateText = async (text: string, direction: 'en-id' | 'id-en'):
         }`;
 
         const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-1.5-flash',
             contents: prompt,
             config: {
                 responseMimeType: 'application/json',
@@ -557,7 +557,7 @@ export const getWordIPA = async (word: string): Promise<string> => {
         const ai = getAiClient();
         const prompt = `Give the International Phonetic Alphabet (IPA) for the English word: "${word}". Return only the IPA symbols in slashes.`;
         const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-1.5-flash',
             contents: prompt,
             config: {
                 /* thinkingConfig removed for gemini-2.5-flash compatibility */
@@ -575,7 +575,7 @@ export const generateSingleReadingTitle = async (level: string, theme: string, i
         ${STRICT_FILTER} 
         Return JSON: { "title": "string" }`;
         const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-1.5-flash',
             contents: prompt,
             config: {
                 responseMimeType: 'application/json',
@@ -594,7 +594,7 @@ export const generateSingleListeningTitle = async (level: string, type: string, 
         ${STRICT_FILTER} 
         Return JSON: { "title": "string" }`;
         const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-1.5-flash',
             contents: prompt,
             config: {
                 responseMimeType: 'application/json',
@@ -633,7 +633,7 @@ export const generateWeeklyInsight = async (logs: any[], profileName: string): P
         `;
 
         const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-1.5-flash',
             contents: prompt,
             config: {
                 /* thinkingConfig removed for gemini-2.5-flash compatibility */
