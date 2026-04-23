@@ -1,0 +1,40 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && 
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
+         request.auth.token.email == "Erick.junionp@gmail.com" ||
+         request.auth.token.email == "lovelya.edu@gmail.com");
+    }
+
+    // Master Settings (Activation Code)
+    match /settings/master {
+      // Users need to read the code to verify it during activation
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+
+    // User Profile
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      allow update: if isOwner(userId) || isAdmin();
+      
+      // Subcollections (Diary, Vocab, Activity, Settings)
+      match /{allSubcollections=**} {
+        allow read, write: if isOwner(userId) || isAdmin();
+      }
+    }
+  }
+}
