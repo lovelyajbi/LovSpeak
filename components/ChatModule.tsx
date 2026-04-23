@@ -101,7 +101,7 @@ const ChatModule: React.FC<ModuleProps> = ({ onComplete, onNavigate }) => {
       Keep responses soulful and engaging. You are more than a tool; you are a companion in their learning journey.`;
 
       chatSessionRef.current = ai.chats.create({
-        model: 'gemini-1.5-flash',
+        model: 'gemini-2.5-flash-lite',
         config: { systemInstruction }
       });
 

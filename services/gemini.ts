@@ -81,11 +81,10 @@ export const analyzeDiaryEntry = async (text: string, level: string): Promise<Gr
         }`;
 
         const response = await ai.models.generateContent({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-2.5-flash-lite',
             contents: prompt,
             config: {
-                responseMimeType: 'application/json',
-                /* thinkingConfig removed for gemini-2.5-flash compatibility */
+                responseMimeType: 'application/json'
             }
         });
         return safeParseJSON(response.text, { correctedText: text, generalFeedback: 'Analysis failed', errors: [], score: 0 });
@@ -110,11 +109,10 @@ export const generateAssessmentTest = async (): Promise<AssessmentQuestion[]> =>
         `;
 
         const response = await ai.models.generateContent({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-3-flash-preview',
             contents: prompt,
             config: {
-                responseMimeType: 'application/json',
-                /* thinkingConfig removed for gemini-2.5-flash compatibility */
+                responseMimeType: 'application/json'
             }
         });
         const data = safeParseJSON(response.text, { questions: [] });
@@ -170,11 +168,10 @@ export const evaluateAssessment = async (responses: any[]): Promise<AssessmentRe
         });
 
         const response = await ai.models.generateContent({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-3-flash-preview',
             contents: { parts: contentParts },
             config: {
-                responseMimeType: 'application/json',
-                /* thinkingConfig removed for gemini-2.5-flash compatibility */
+                responseMimeType: 'application/json'
             }
         });
 
@@ -198,10 +195,9 @@ export const generateGrammarTask = async (lessonTitle: string): Promise<string> 
         ${getLanguageInstruction()} 
         ${STRICT_FILTER}`;
         const response = await ai.models.generateContent({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-2.5-flash-lite',
             contents: prompt,
             config: {
-                /* thinkingConfig removed for gemini-2.5-flash compatibility */
             }
         });
         return response.text?.trim() || `Write 3-5 sentences practicing ${lessonTitle}.`;
@@ -216,11 +212,10 @@ export const analyzeGrammar = async (text: string, taskContext: string): Promise
         ${getLanguageInstruction()}
         Return JSON: { "correctedText": "...", "generalFeedback": "...", "score": 0-100, "errors": [{ "mistake": "...", "correction": "...", "explanation": "..." }] }`;
         const response = await ai.models.generateContent({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-2.5-flash-lite',
             contents: prompt,
             config: {
-                responseMimeType: 'application/json',
-                /* thinkingConfig removed for gemini-2.5-flash compatibility */
+                responseMimeType: 'application/json'
             }
         });
         return safeParseJSON(response.text, { correctedText: text, generalFeedback: 'Error', errors: [], score: 0 });
@@ -235,11 +230,10 @@ export const generateGrammarQuiz = async (lessonTitle: string, content: string, 
         ${STRICT_FILTER}
         Return JSON: { "quiz": [{ "question": "...", "options": ["4 options"], "correctIndex": 0, "explanation": "..." }] }`;
         const response = await ai.models.generateContent({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-2.5-flash-lite',
             contents: prompt,
             config: {
-                responseMimeType: 'application/json',
-                /* thinkingConfig removed for gemini-2.5-flash compatibility */
+                responseMimeType: 'application/json'
             }
         });
         const data = safeParseJSON(response.text, { quiz: [] });
@@ -268,11 +262,10 @@ export const generateGameData = async (category: string, context: string, level:
         ${getLanguageInstruction()}
         ${STRICT_FILTER} Structure: ${schemaPrompt}`;
         const response = await ai.models.generateContent({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-2.5-flash-lite',
             contents: prompt,
             config: {
-                responseMimeType: 'application/json',
-                /* thinkingConfig removed for gemini-2.5-flash compatibility */
+                responseMimeType: 'application/json'
             }
         });
         return safeParseJSON(response.text, { data: [] }).data || [];
@@ -290,11 +283,10 @@ export const generateReadingTitles = async (level: string, theme: string, isIsla
         ${STRICT_FILTER} 
         Return JSON: { "titles": ["string"] }`;
         const response = await ai.models.generateContent({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-2.5-flash-lite',
             contents: prompt,
             config: {
-                responseMimeType: 'application/json',
-                /* thinkingConfig removed for gemini-2.5-flash compatibility */
+                responseMimeType: 'application/json'
             }
         });
         return safeParseJSON(response.text, { titles: [] }).titles;
@@ -311,11 +303,10 @@ export const generateReadingContentStream = async (title: string, level: string,
         Return JSON structure but as a stream: { "title": "${title}", "paragraphs": ["string"] }`;
 
         return await ai.models.generateContentStream({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-2.5-flash-lite',
             contents: prompt,
             config: {
-                responseMimeType: 'application/json',
-                /* thinkingConfig removed for gemini-2.5-flash compatibility */
+                responseMimeType: 'application/json'
             }
         });
     } catch (e) { return handleApiError(e); }
@@ -331,11 +322,10 @@ export const generateReadingContent = async (title: string, level: string, theme
         Return JSON: { "title": "${title}", "paragraphs": ["string"] }`;
 
         const response = await ai.models.generateContent({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-2.5-flash-lite',
             contents: prompt,
             config: {
-                responseMimeType: 'application/json',
-                /* thinkingConfig removed for gemini-2.5-flash compatibility */
+                responseMimeType: 'application/json'
             }
         });
         return safeParseJSON(response.text, { title, paragraphs: [] });
@@ -351,11 +341,10 @@ export const generateListeningTitles = async (level: string, type: string, theme
         ${STRICT_FILTER} 
         Return JSON: { "titles": ["string"] }`;
         const response = await ai.models.generateContent({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-2.5-flash-lite',
             contents: prompt,
             config: {
-                responseMimeType: 'application/json',
-                /* thinkingConfig removed for gemini-2.5-flash compatibility */
+                responseMimeType: 'application/json'
             }
         });
         return safeParseJSON(response.text, { titles: [] }).titles;
@@ -372,10 +361,9 @@ export const generateListeningScript = async (title: string, level: string, type
         ${STRICT_FILTER} 
         Return only the plain text script.`;
         const response = await ai.models.generateContent({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-2.5-flash-lite',
             contents: prompt,
             config: {
-                /* thinkingConfig removed for gemini-2.5-flash compatibility */
             }
         });
         return response.text || "";
@@ -390,11 +378,10 @@ export const generateListeningQuiz = async (script: string, level: string): Prom
         ${STRICT_FILTER}
         Return JSON: { "quiz": [{ "question": "...", "options": ["4 options"], "correctIndex": 0, "explanation": "..." }] }`;
         const response = await ai.models.generateContent({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-2.5-flash-lite',
             contents: prompt,
             config: {
-                responseMimeType: 'application/json',
-                /* thinkingConfig removed for gemini-2.5-flash compatibility */
+                responseMimeType: 'application/json'
             }
         });
         return safeParseJSON(response.text, { quiz: [] }).quiz;
@@ -428,7 +415,7 @@ export const analyzePronunciationAudio = async (text: string, base64: string, mi
         }`;
 
         const response = await ai.models.generateContent({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-2.5-flash-lite',
             contents: {
                 parts: [
                     { inlineData: { data: base64, mimeType: mime } },
@@ -436,8 +423,7 @@ export const analyzePronunciationAudio = async (text: string, base64: string, mi
                 ]
             },
             config: {
-                responseMimeType: 'application/json',
-                /* thinkingConfig removed for gemini-2.5-flash compatibility */
+                responseMimeType: 'application/json'
             }
         });
 
@@ -461,7 +447,7 @@ export const transcribeAudio = async (base64: string, mime: string): Promise<str
     try {
         const ai = getAiClient();
         const response = await ai.models.generateContent({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-2.5-flash-lite',
             contents: {
                 parts: [
                     { inlineData: { data: base64, mimeType: mime } },
@@ -469,7 +455,6 @@ export const transcribeAudio = async (base64: string, mime: string): Promise<str
                 ]
             },
             config: {
-                /* thinkingConfig removed for gemini-2.5-flash compatibility */
             }
         });
         return response.text?.trim() || "";
@@ -538,11 +523,10 @@ export const translateText = async (text: string, direction: 'en-id' | 'id-en'):
         }`;
 
         const response = await ai.models.generateContent({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-2.5-flash-lite',
             contents: prompt,
             config: {
-                responseMimeType: 'application/json',
-                /* thinkingConfig removed for gemini-2.5-flash compatibility */
+                responseMimeType: 'application/json'
             }
         });
         return safeParseJSON(response.text, { translation: text, synonyms: [], examples: [] });
@@ -557,10 +541,9 @@ export const getWordIPA = async (word: string): Promise<string> => {
         const ai = getAiClient();
         const prompt = `Give the International Phonetic Alphabet (IPA) for the English word: "${word}". Return only the IPA symbols in slashes.`;
         const response = await ai.models.generateContent({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-2.5-flash-lite',
             contents: prompt,
             config: {
-                /* thinkingConfig removed for gemini-2.5-flash compatibility */
             }
         });
         return response.text?.trim() || "";
@@ -575,11 +558,10 @@ export const generateSingleReadingTitle = async (level: string, theme: string, i
         ${STRICT_FILTER} 
         Return JSON: { "title": "string" }`;
         const response = await ai.models.generateContent({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-2.5-flash-lite',
             contents: prompt,
             config: {
-                responseMimeType: 'application/json',
-                /* thinkingConfig removed for gemini-2.5-flash compatibility */
+                responseMimeType: 'application/json'
             }
         });
         return safeParseJSON(response.text, { title: "New Topic" }).title;
@@ -594,11 +576,10 @@ export const generateSingleListeningTitle = async (level: string, type: string, 
         ${STRICT_FILTER} 
         Return JSON: { "title": "string" }`;
         const response = await ai.models.generateContent({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-2.5-flash-lite',
             contents: prompt,
             config: {
-                responseMimeType: 'application/json',
-                /* thinkingConfig removed for gemini-2.5-flash compatibility */
+                responseMimeType: 'application/json'
             }
         });
         return safeParseJSON(response.text, { title: "New Topic" }).title;
@@ -633,10 +614,9 @@ export const generateWeeklyInsight = async (logs: any[], profileName: string): P
         `;
 
         const response = await ai.models.generateContent({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-3-flash-preview',
             contents: prompt,
             config: {
-                /* thinkingConfig removed for gemini-2.5-flash compatibility */
             }
         });
         return response.text?.trim() || "";
